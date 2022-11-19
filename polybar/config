@@ -18,7 +18,7 @@
 
 
 [colors]
-background = #282A2E
+background = #000000
 background-alt = #373B41
 foreground = #C5C8C6
 primary = #F0C674
@@ -28,8 +28,8 @@ disabled = #707880
 
 [bar/mybar]
 width = 100%
-height = 16pt
-radius = 6
+height = 27pt
+; radius = 6
 
 ; dpi = 96
 
@@ -39,21 +39,21 @@ foreground = ${colors.foreground}
 line-size = 2pt
 
 border-size = 0pt
-border-color = #00000000
+border-color = #000000
 
 padding-left = 0
 padding-right = 1
 
-module-margin = 0
+module-margin = 1
 
 separator = |
 separator-foreground = ${colors.disabled}
 
-font-0 = monospace;2
+font-0 = "System San Francisco Display Regular:size=14;4"
 
 modules-left = xworkspaces xwindow
 ; modules-center = date
-modules-right = filesystem pulseaudio memory battery cpu wlan eth date
+modules-right = filesystem pulseaudio memory cpu battery wlan eth date
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -73,11 +73,14 @@ bottom = true
 type = internal/xworkspaces
 
 label-active = %name%
-label-active-background = ${colors.background-alt}
-label-active-underline= ${colors.primary}
+label-active-foreground = #000000
+label-active-background = #88D8B0
+; label-active-underline= ${colors.primary}
 label-active-padding = 1
 
 label-occupied = %name%
+label-occupied-foreground = #000000
+label-occupied-background = #FFCC5C
 label-occupied-padding = 1
 
 label-urgent = %name%
@@ -92,9 +95,9 @@ label-empty-padding = 1
 type = internal/xwindow
 label = %title:0:60:...%
 
-[module/filesystem]
-type = internal/fs
-interval = 25
+; [module/filesystem]
+; type = internal/fs
+; interval = 25
 
 mount-0 = /
 
@@ -148,11 +151,32 @@ format-connected = <label-connected>
 format-disconnected = <label-disconnected>
 label-disconnected = %{FF0C674}%ifname%%{F707880} disconnected
 
+; [module/wlan]
+; inherit = network-base
+; ; interface-type = wireless
+; ; label-connected = %{FF0C674}%ifname%%{F-} %essid%
+
 [module/wlan]
-inherit = network-base
-interface-type = wireless
-label-connected = %{FF0C674}%ifname%%{F-} %essid%
+type = internal/network
+interface = wlp0s20f3
+interval = 1
+format-connected = <label-connected>
+; label-connected = %{T6}%essid% %{T7}%local_ip% %signal%
+label-connected = %{A1:gnome-terminal -e nmtui:}%essid% ~ %signal%%{A} ~ %upspeed% ~ %downspeed%
+label-disconnected = %{A1:gnome-terminal -e nmtui:}disconnected%{A}
+; label-connected = %{A1:gnome-terminal -e nmtui &:} %essid%%{A}
+label-connected-foreground = #ff87c095
+label-disconnected-foreground = #f55f5f
+
 ; %local_ip%
+
+; [module/network]
+; type = internal/network
+; interface = wireless
+; interval = 1.0
+; label-connected = "  %downspeed%   %upspeed%  "
+
+; label-connected-background = #FF0000
 
 [module/eth]
 inherit = network-base
@@ -163,8 +187,8 @@ label-connected = %{FF0C674}%ifname%%{F-} %local_ip%
 type = internal/date
 interval = 1
 
-date-alt = %H:%M
-date = %d-%m-%Y %H:%M:%S
+; date-alt = %H:%M
+date = %d-%m-%Y ~ %H:%M:%S
 
 label = %date%
 label-foreground = ${colors.primary}
@@ -186,12 +210,12 @@ full-at = 98
 label-full = %percentage%%
 format-full = <label-full>
 
-label-charging = %percentage%% %time%
-format-charging-prefix = "C "
-format-charging-prefix-foreground = ${colors.primary}
+label-charging = %percentage%%
+format-charging-prefix = "CHR BAT "
+format-charging-prefix-foreground = #ff87c095
 format-charging = <label-charging>
 
-label-discharging = %percentage%% %time%
+label-discharging = %percentage%%
 format-discharging-prefix = "BAT "
 format-discharging-prefix-foreground = ${colors.primary}
 format-discharging = <label-discharging>
