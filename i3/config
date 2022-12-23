@@ -127,7 +127,7 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10: File Explorer"
+set $ws10 "10: Files"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -230,6 +230,20 @@ bindsym $mod+Control+l exec "i3lock --image /home/chirag/Pictures/wallpaper/lock
 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
-exec_always --no-startup-id feh --bg-fill "/home/chirag/Pictures/wallpaper/background.jpg"
+exec_always --no-startup-id feh --bg-fill "/home/chirag/Downloads/wallpaper.jpg"
+# exec_always --no-startup-id feh --bg-fill "/home/chirag/Pictures/wallpaper/background.jpg"
 
 exec_always --no-startup-id libinput-gestures-setup start
+
+# Screenshots
+# bindsym Print exec --no-startup-id maim "/home/chirag/Pictures/Screenshots$(date)"
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/chirag/Pictures/Screenshots/$(date)"
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
+
+## Clipboard Screenshots
+bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+
+# Battery Low
+exec_always --no-startup-id ~/.config/i3/scripts/batterylow.sh

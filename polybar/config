@@ -45,15 +45,15 @@ padding-left = 0
 padding-right = 1
 
 module-margin = 1
-
+label-separator = |
 separator = |
 separator-foreground = ${colors.disabled}
 
 font-0 = "System San Francisco Display Regular:size=14;4"
 
 modules-left = xworkspaces xwindow
-; modules-center = date
-modules-right = filesystem pulseaudio memory cpu battery wlan eth date
+; modules-center =
+modules-right = filesystem pulseaudio temperature memory cpu battery wlan eth date
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -93,7 +93,7 @@ label-empty-padding = 1
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:60:...%
+label = %title:0:30:...%
 
 ; [module/filesystem]
 ; type = internal/fs
@@ -162,8 +162,8 @@ interface = wlp0s20f3
 interval = 1
 format-connected = <label-connected>
 ; label-connected = %{T6}%essid% %{T7}%local_ip% %signal%
-label-connected = %{A1:gnome-terminal -e nmtui:}%essid% ~ %signal%%{A} ~ %upspeed% ~ %downspeed%
-label-disconnected = %{A1:gnome-terminal -e nmtui:}disconnected%{A}
+label-connected = %{A1:gnome-terminal -e nmtui:}%essid% ~ %signal%%{A} ~ %downspeed% ~ %upspeed%
+label-disconnected = %{A1:gnome-terminal -e nmtui:/}disconnected%{A}
 ; label-connected = %{A1:gnome-terminal -e nmtui &:} %essid%%{A}
 label-connected-foreground = #ff87c095
 label-disconnected-foreground = #f55f5f
@@ -177,6 +177,7 @@ label-disconnected-foreground = #f55f5f
 ; label-connected = "  %downspeed%   %upspeed%  "
 
 ; label-connected-background = #FF0000
+
 
 [module/eth]
 inherit = network-base
@@ -206,7 +207,6 @@ battery = BAT1
 adapter = ADAP
 
 full-at = 98
-
 label-full = %percentage%%
 format-full = <label-full>
 
@@ -219,3 +219,63 @@ label-discharging = %percentage%%
 format-discharging-prefix = "BAT "
 format-discharging-prefix-foreground = ${colors.primary}
 format-discharging = <label-discharging>
+
+[module/bluetooth]
+type = custom/script
+exec = ~/.config/polybar/bluetooth.sh
+interval = 2
+; click-left = exec blueberry
+click-right = exec ~/.config/polybar/toggle_bluetooth.sh
+; label = "bluetooth"
+format-padding = 1
+format-background = #000000
+format-foreground = #ffffff
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format-prefix-foreground = ${colors.primary}
+format = <ramp> <label>
+format-underline = ${xrdb:color1}
+;format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
+
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = power
+label-open-foreground =  #f55f5f
+label-close = cancel
+label-close-foreground = #f55f5f
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = sudo reboot
+
+menu-2-0 = power off
+menu-2-0-exec = sudo poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0

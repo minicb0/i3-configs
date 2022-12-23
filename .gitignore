@@ -11,8 +11,22 @@ ibus/
 pulse/
 update-notifier/
 xfce4/
+gnome-session/
 .gsd-keyboard.settings-ported
 gnome-initial-setup-done
 mimeapps.list
 user-dirs.dirs
 user-dirs.locale
+microsoft-edge/
+google-chrome/
+MongoDB Compass/
+libreoffice/
+totem/
+vlc/
+gtk-4.0/
+light/
+yelp/
+config.yml
+hosts.yml
+menus/
+nextjs-nodejs/
